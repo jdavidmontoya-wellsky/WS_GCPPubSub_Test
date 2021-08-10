@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.PubSub.V1;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,9 +12,11 @@ namespace GCP_SubPub_ClientConsumer
     {
         static void Main(string[] args)
         {
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.json"));
+
             Console.WriteLine("GCP Sub/Pub Subscriber Client Test...");
             PullMessagesWithCustomAttributesAsync("peak-system-321913", "Consumer_Update", false).GetAwaiter().GetResult();
-           // PullMessagesAsync("peak-system-321913", "Consumer_Update", true).GetAwaiter().GetResult();
+            // PullMessagesAsync("peak-system-321913", "Consumer_Update", true).GetAwaiter().GetResult();
             Console.WriteLine("Press INTRO to continue...");
             Console.ReadLine();
         }
