@@ -20,7 +20,7 @@ namespace GCP_SubPub_Client
             {
                 Console.WriteLine("Press INTRO to send (or type e to exit):");
                 string textSend = Console.ReadLine();
-                if (string.IsNullOrEmpty(textSend) || textSend.ToUpper().Equals("E"))
+                if (textSend.ToUpper().Equals("E"))
                 {
                     flagContinue = false;
                 }
@@ -28,6 +28,7 @@ namespace GCP_SubPub_Client
                 textSend = data.ToString(Newtonsoft.Json.Formatting.None);
                 PublishMessageWithCustomAttributesAsync("peak-system-321913", "Consumer_Update", textSend).GetAwaiter().GetResult();
             } while (flagContinue);
+            Console.WriteLine("Exit application...");
         }
 
         public static async Task PublishMessageWithCustomAttributesAsync(string projectId, string topicId, string messageText)
