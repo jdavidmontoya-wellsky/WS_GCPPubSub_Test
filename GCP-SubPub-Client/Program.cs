@@ -1,11 +1,8 @@
 ﻿using Google.Cloud.PubSub.V1;
 using Google.Protobuf;
-using Grpc.Core;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace GCP_SubPub_Client
@@ -14,17 +11,21 @@ namespace GCP_SubPub_Client
     {
         static void Main(string[] args)
         {
-            Environment.SetEnvironmentVariable(
-        "GOOGLE_APPLICATION_CREDENTIALS",
-        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.json"));
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS",
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "key.json"));
 
+            Console.WriteLine("GCP Sub/Pub Test...");
             bool flagContinue = true;
             do
             {
-                Console.WriteLine("GCP Sub/Pub Test...\n Write message to send(or write exit):");
+                Console.WriteLine("Press INTRO to send (or type e to exit):");
                 string textSend = Console.ReadLine();
-                if (string.IsNullOrEmpty(textSend) || textSend.ToUpper().Equals("EXIT"))
+                if (string.IsNullOrEmpty(textSend) || textSend.ToUpper().Equals("E"))
+                {
                     flagContinue = false;
+                }
+                JObject data = JObject.Parse(File.ReadAllText(@"C:\Users\jesusdavid.montoya\Documents\WellSky\UserStory7292\GCP-PubSub\test.json"));
+                textSend = data.ToString(Newtonsoft.Json.Formatting.None);
                 PublishMessageWithCustomAttributesAsync("peak-system-321913", "Consumer_Update", textSend).GetAwaiter().GetResult();
             } while (flagContinue);
         }
